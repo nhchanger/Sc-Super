@@ -1,6 +1,6 @@
 target   = balance+10  
 mt       = 1.5 
-base     = 10 
+base     = 1 
 pr       = 0.00000  
 nextbet  = pr  
 ct       = 0  
