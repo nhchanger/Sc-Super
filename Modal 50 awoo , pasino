@@ -1,0 +1,46 @@
+--Jim'sbon ---
+--Fibo 2---
+chance    = 90
+basebet   = 5/1e8 
+bethigh   = true
+losecount = 0
+nextbet   = basebet
+target    = balance * 1.8
+pc        = 0
+fiblevel  = 0
+fibstep   = 0.5
+function myfib(level,step)
+    fibno=basebet
+    temp=0
+    prevfibno=0
+    if level == 0 then
+        fibno = basebet
+    else
+        for j = 0,level-1,1 do
+            temp      = fibno
+            fibno     = fibno + (prevfibno * step)
+            prevfibno = temp
+        end
+    end
+    return fibno    
+end
+function dobet()
+    if balance >= target then
+        stop()
+    end
+    pc += currentprofit
+    if (win) then
+        if pc >= 0 then
+            pc       = 0
+            fiblevel = 0
+            chance   = math.random(7000,8500)/100
+            nextbet  = basebet
+        end
+    else
+        fiblevel += 1
+        nextbet = myfib(fiblevel,fibstep)
+        chance  = math.random(5,12)
+        end
+        bethigh = not bethigh
+    end
+end
