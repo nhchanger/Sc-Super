@@ -1,0 +1,55 @@
+ch=79           --chance recov
+pt=0.002        --marti bb + pt
+bb=0.055        --basebet
+bb1=0.01        --lose 2x nextbet=bb1
+bb2=0.015       --lose 3x nextbet=bb2
+bb3=0.04        --lose 4x nextbet=bb3
+bb4=0.06        --lose 5x nextbet=bb4
+seed=10000      --resetseed
+rs=0
+cp=0
+ls=0
+
+chance=ch
+nextbet=bb
+bethigh=false
+target=balance+1
+if nextbet<bb then nextbet=bb end
+function dobet()
+rs=rs+1
+cp=currentprofit+cp
+if balance>target then stop() end
+    if cp>0 then
+        nextbet=bb
+        chance=math.random(97,98)
+    end
+    if cp<-bb then
+        nextbet=nextbet+(bb+pt)
+        chance=math.random(ch*100,89*100)/100
+    end
+    if win then
+        bethigh=!bethigh
+        ls=0
+        if rs>seed then resetseed() rs=0 end
+    else
+        ls=ls+1
+    end
+    if ls==2 then
+        nextbet=bb1
+        chance=49.5
+    end
+    if ls==3 then
+        nextbet=bb2
+        chance=70
+    end
+    if ls==4 then
+        nextbet=bb3
+        chance=70
+    end
+    if ls==5 then
+        nextbet=bb4
+        chance=70
+    end
+    if nextbet<bb then nextbet=bb end
+    log("\n\n •• set script for wagered •• \n")
+end
