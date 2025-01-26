@@ -1,0 +1,41 @@
+basebet = 0.00000001 
+nextbet = basebet 
+chance  = 33.33 
+lose    = 0 
+betlose = 0 
+limit   = balance *0.3 
+step    = limit 
+target  = balance * 2.31 
+stopwin = false 
+resetstats() 
+resetchart() 
+function dobet() 
+    lose += previousbet 
+    chance = math.random(1.2,12) 
+    if win then 
+        lose    = 0 
+        betlose = 0 
+        nextbet = basebet 
+        limit   = step + profit 
+        if stopwin then stop() end 
+    else 
+        betlose += 1 
+        if betlose > 3 then 
+            nextbet = previousbet * 1.1765179574883948 
+        else  
+            chance  = 33.33 
+            nextbet = lose / ((99.9 / chance) - 1) 
+        end  
+    end   
+    nextbet = math.ceil(nextbet * 10 ^ 8) / 10 ^ 8 
+     
+     
+    print("==================================") 
+    print(" >> "..lose) 
+    print(" limit "..limit) 
+    print("==================================") 
+     
+     
+    if balance - nextbet < limit then stop() end 
+    if balance > target then stop() end 
+end
