@@ -1,0 +1,73 @@
+target   = balance+10  
+mt       = 1.5 
+base     = 10 
+pr       = 0.00000  
+nextbet  = pr  
+ct       = 0  
+c1       = 12  
+c2       = 14  
+change   = 0  
+roll     = 20  
+digging  = 10  
+basetest = base  
+chance   = c1  
+ll       = balance*(5/100)  
+limit    = balance-ll  
+s        = false  
+x        = balance*(2/100)  
+tp       = balance+x  
+  
+  
+function dobet()  
+      
+    pb = previousbet   
+    ch = math.random(c1*100.0,c2*100.0)/100.0   
+    if balance >= tp then   
+    tp = balance+x  
+  end  
+    ct += 1   
+    if ct < roll then   
+        nb      = pr  
+        bethigh = false  
+    end   
+  
+    if ct == roll then   
+        nb = basetest   
+    end   
+       
+    if ct > roll then   
+    if win then    
+        limit = balance-ll    
+    if s then stop () end   
+        change   = 0    
+        ct       = 0    
+        basetest = base   
+        nb       = pr  
+    else   
+        change += 1   
+        nb      = pb*mt    
+        bethigh = true   
+    end   
+end   
+  
+    if change >= digging then   
+        change   = 0   
+        ct       = 0   
+        basetest = pb   
+        nb       = pr   
+    end   
+  
+    if balance >= target then   
+        change   = 0   
+        ct       = 0  
+        basetest = base    
+        nb       = pr    
+        stop()   
+    end   
+    if nb > base*1000 then   
+        --sleep (179)  
+  end  
+    if balance < limit then s = true end  
+    nextbet = nb   
+    chance  = ch  
+end
